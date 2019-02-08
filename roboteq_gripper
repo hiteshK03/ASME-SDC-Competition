@@ -1,0 +1,43 @@
+startpos2=getvalue(_abcntr,2)
+endpos2=startpos2+400000
+
+
+startpos1 = GetValue(_ABCNTR,1)
+endpos1 = startpos1 + 2400
+
+case1:
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'motor2 upar wali,,,,,,,,,,,,,,,,,,,,,,,
+pos2=getvalue(_abcntr,2)
+
+pulsein2=getvalue(_plsin,2)
+
+if pulsein2<1100 then
+	pulsein2=1100
+elseif pulsein2>1900 then
+	pulsein2=1900
+end if
+
+desirepos2=startpos2+ ( (pulsein2-1100)*400000 )/800
+
+
+setcommand(_p,2,desirepos2)
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'motor1 pinion,,,,,,,,,,,,,,,,,,,,,,
+
+pos1 = GetValue(_ABCNTR,1)
+
+check:
+If pos1<startpos1 Or pos1>endpos1 Then
+	SetCommand(_GO,1,0)
+	If pos1<startpos1 Then
+		startpos1 = GetValue(_ABCNTR,1)
+		endpos1 = startpos1 + 2400
+
+	ElseIf pos1>endpos1 Then
+		endpos1 = GetValue(_ABCNTR,1)
+		startpos1 = endpos1 - 2400
+
+	End If
+
+End If
+
+GoTo case1
